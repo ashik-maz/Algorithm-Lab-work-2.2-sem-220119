@@ -1,105 +1,56 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-struct Graph 
-{ 
-    int V, E; 
-    vector< pair<int, pair<int, int>> > edges;
-    Graph(int V, int E) 
-    { 
-        this->V = V; 
-        this->E = E; 
-    } 
-    void addEdge(int u, int w, int v) 
-    { 
-        edges.push_back({w, {u, v}}); 
-    } 
-    int kruskalMST(); 
-}; 
-
-struct DisjointSets 
-{ 
-    int *parent, *rnk; 
-    int n; 
-
-    DisjointSets(int n) 
-    { 
-        this->n = n; 
-        parent = new int[n+1]; 
-        rnk = new int[n+1]; 
-        for (int i = 0; i <= n; i++) 
-        { 
-            rnk[i] = 0; 
-            parent[i] = i; 
-        } 
-    } 
-    int find(int u) 
-    { 
-        if (u != parent[u]) 
-            parent[u] = find(parent[u]); 
-        return parent[u]; 
-    } 
-
-    void merge(int x, int y) 
-    { 
-        x = find(x), y = find(y); 
-
-        if (rnk[x] > rnk[y]) 
-            parent[y] = x; 
-        else 
-            parent[x] = y; 
-
-        if (rnk[x] == rnk[y]) 
-            rnk[y]++; 
-    } 
+struct Edge {
+    int src, dest, weight;
 };
 
-int Graph::kruskalMST() 
-{ 
-    int mst_wt = 0; 
-    sort(edges.begin(), edges.end()); 
-    DisjointSets ds(V); 
-
-    vector< pair<int, pair<int, int>> >::iterator it; 
-    for (it = edges.begin(); it != edges.end(); it++) 
-    { 
-        int u = it->second.first; 
-        int v = it->second.second; 
-        int set_u = ds.find(u); 
-        int set_v = ds.find(v); 
-
-        if (set_u != set_v) 
-        { 
-            cout << u << " - " << v << endl; 
-            mst_wt += it->first; 
-            ds.merge(set_u, set_v); 
-        } 
-    } 
-
-    return mst_wt; 
+bool compare(Edge a, Edge b) {
+    return a.weight < b.weight;
 }
 
-int main() 
-{ 
-    int V, E;
-    cout << "Enter number of vertices: ";
-    cin >> V;
-    cout << "Enter number of edges: ";
-    cin >> E;
+int findParent(int parent[], int i) {
+    if (parent[i] == -1)
+        return i;
+    return findParent(parent, parent[i]);
+}
 
-    Graph g(V, E);
-    
-    cout << "Enter the edges (u, v, weight) for each edge:\n";
-    for (int i = 0; i < E; i++) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        g.addEdge(u, w, v);
+void unionSets(int parent[], int x, int y) {
+    parent[findParent(parent, x)] = findParent(parent, y);
+}
+
+void kruskalMST(vector<Edge> &edges, int V) {
+    vector<Edge> mst;
+    int parent[V];
+    fill(parent, parent + V, -1);
+
+    sort(edges.begin(), edges.end(), compare); // Sort edges by weight
+
+    for (auto &edge : edges) {
+        int x = findParent(parent, edge.src);
+        int y = findParent(parent, edge.dest);
+
+        if (x != y) {
+            mst.push_back(edge);
+            unionSets(parent, x, y);
+        }
     }
 
-    cout << "Edges of MST are \n"; 
-    int mst_wt = g.kruskalMST(); 
+    // Print MST
+    for (auto &edge : mst) {
+        cout << edge.src << " - " << edge.dest << " : " << edge.weight << endl;
+    }
+}
 
-    cout << "\nWeight of MST is " << mst_wt; 
+int main() {
+    int V = 5, E = 7;
+    vector<Edge> edges = {
+        {0, 1, 2}, {0, 3, 6}, {1, 2, 3},
+        {1, 3, 8}, {1, 4, 5}, {2, 4, 7}, {3, 4, 9}
+    };
 
-    return 0; 
-} 
+    kruskalMST(edges, V);
+    return 0;
+}

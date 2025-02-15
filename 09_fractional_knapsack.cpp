@@ -22,7 +22,7 @@ double maximumValue (vector<pair<int, int>>& items, int n, int w)
 }
 
 int main(){
-    cout<<"Enter Number of Items: "
+    cout<<"Enter Number of Items: ";
     int n;cin>>n;
     vector<pair<int,int>>items(n);
     cout<<"Enter every item weight and value : ";
