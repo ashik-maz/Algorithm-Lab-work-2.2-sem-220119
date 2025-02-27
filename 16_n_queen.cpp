@@ -1,3 +1,4 @@
+//n-queen problem
 #include<bits/stdc++.h>
 using namespace std;
 bool isSafe(vector<string> &board, int row, int col, int n){
