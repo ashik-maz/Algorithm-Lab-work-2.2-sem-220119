@@ -1,28 +1,19 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-void towerOfHanoi(int n, char source, char auxiliary, char destination){
-    if(n==1){
-        cout<<"Move disk 1 from "<<source<<" to"<<destination<<endl;
-        return;
-    }
-    // Move n-1 disks from source to auxiliary using destination as buffer
-    towerOfHanoi(n-1,source,destination, auxiliary);
+void TowerOfHanoi(int n, char src, char aux, char dest){
+    if(n==0) return;
 
-    // Move nth disk from source to destination
-    cout<<"Move disk "<<n<<" from "<<source<<" to "<<destination<<endl;
+    TowerOfHanoi(n-1,src,dest,aux);
 
-    // Move n-1 disks from auxiliary to destination using source as buffer
-    towerOfHanoi(n-1, auxiliary,source, destination);
+    cout<<"Move disk "<<n<<" from "<<src<<" to "<<dest<<endl;
+    
+    TowerOfHanoi(n-1,aux,src,dest);
 }
 
-int main(){
-    int n;
-    cout<<"Enter the number of disks: ";
-    cin>>n;
 
-    // A, B, C are the rods
-    towerOfHanoi(n,'A','B','C');
-
-    return 0;
+int main() {
+    cout << "Enter the number of disks: ";
+    int n;cin>>n;
+    TowerOfHanoi(n, 'A', 'B', 'C');
 }
