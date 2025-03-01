@@ -1,23 +1,18 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-string lcs(string &s1, string &s2) {
-    int m = s1.size(), n = s2.size();
-    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
-    for (int i = 1; i <= m; i++)
-        for (int j = 1; j <= n; j++)
-            dp[i][j] = (s1[i-1] == s2[j-1]) ? dp[i-1][j-1] + 1 : max(dp[i-1][j], dp[i][j-1]);
+int lcs(string &s1, string &s2, int m, int n){
+    if(m==0 or n==0)
+        return 0;
     
-    string res = "";
-    for (int i = m, j = n; i > 0 && j > 0;)
-        (s1[i-1] == s2[j-1]) ? (res = s1[--i] + res, --j) : (dp[i-1][j] > dp[i][j-1] ? --i : --j);
-    
-    return res;
+    if(s1[m-1]==s2[n-1])
+        return 1+lcs(s1,s2,m-1,n-1);
+    else
+        return max(lcs(s1,s2,m,n-1),lcs(s1,s2,m-1,n));
 }
 
-int main() {
-    string s1, s2;
-    cin >> s1 >> s2;
-    string result = lcs(s1, s2);
-    cout << result.size() << "\n" << result;
+int main(){
+    string s1,s2;cin>>s1>>s2;
+    int m=s1.size(),n=s2.size();
+    cout<<"LCS: "<<lcs(s1,s2,m,n);
 }
