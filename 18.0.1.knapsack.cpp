@@ -4,6 +4,9 @@ using namespace std;
 int knapsack(vector<pair<int,int>>&items, int n, int w){
     vector<vector<int>>dp(n+1,vector<int>(w+1,0));
 
+    //int dp[n+1][w+1];
+    //memset(dp,0,sizeof(dp));
+
     for(int i=1;i<=n;i++){
         int weight=items[i-1].first;
         int value=items[i-1].second;

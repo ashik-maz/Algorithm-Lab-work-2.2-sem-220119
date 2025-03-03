@@ -14,7 +14,7 @@ double maximumValue (vector<pair<int, int>>& items, int n, int w)
             maxValue+=value;
             w-=weight;
         }else{
-            maxValue+=(double)w/weight*value;
+            maxValue+=((double)value/weight)*w;
             break;
         }
     }
