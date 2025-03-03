@@ -1,3 +1,4 @@
+//devide and conquere
 #include<bits/stdc++.h>
 using namespace std;    
 

@@ -1,6 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+//kruskal's algorithm for minimum spanning tree
+#include<bits/stdc++.h>
 using namespace std;
 
 struct Edge {

@@ -1,3 +1,4 @@
+//comparing linear and binary search
 #include <bits/stdc++.h>
 using namespace std;
 using namespace chrono;
